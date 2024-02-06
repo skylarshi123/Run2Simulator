@@ -2,13 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
     //properties of Rigidbody, AddForce,velocity
     Rigidbody rb;
     [SerializeField] GameObject bullet;
+    [SerializeField] TextMeshProUGUI Btext;
+    
     float speed = 10;
+    float bulletCount = 20;
 
     [SerializeField] float bulletSpeed = 100;
     bool onGround = false;
@@ -38,11 +42,15 @@ public class PlayerController : MonoBehaviour
 
     void OnFire() //function when fire action  triggered
     {
-        Debug.Log("FIRING");
-        GameObject bulletInstance = Instantiate(bullet, transform.position + 0.5f * transform.forward, Quaternion.identity);
-        Rigidbody bulletRigidbody = bulletInstance.GetComponent<Rigidbody>();
-
-        bulletRigidbody.AddForce(bulletSpeed * transform.forward);
+        Btext.text = "bullet count = " + bulletCount;
+        if(bulletCount > 0)
+        {
+            bulletCount--;
+            Debug.Log("FIRING");
+            GameObject bulletInstance = Instantiate(bullet, transform.position + 0.5f * transform.forward, Quaternion.identity);
+            Rigidbody bulletRigidbody = bulletInstance.GetComponent<Rigidbody>();
+            bulletRigidbody.AddForce(bulletSpeed * transform.forward);
+        }
     }
 
     void OnJump()
